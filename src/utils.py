@@ -215,13 +215,19 @@ def show_learned_cut(
     feature_name: str | None = None,
     to_file: str | None = None,
 ) -> None:
-    y = y.squeeze()
     feature_name = feature_name or model.learnable_cuts[cut_index].feature_name
+    df = pd.DataFrame(
+        x, columns=pd.Series([cut.feature_name for cut in model.learnable_cuts])
+    )
+    df["y"] = y.squeeze()
+    for i in range(cut_index):
+        df = df.query(model.learned_cuts_report[i]["cut"])
 
     fig, ax = plt.subplots()
 
-    x_i = x[:, cut_index]
-    sig, bkg = x_i[y == 1], x_i[y == 0]
+    x_i = df.iloc[:, cut_index]
+    y_i = df["y"]
+    sig, bkg = x_i[y_i == 1], x_i[y_i == 0]
     sig_weights = 100 * np.ones_like(sig) / len(x_i)
     bkg_weights = 100 * np.ones_like(bkg) / len(x_i)
 
