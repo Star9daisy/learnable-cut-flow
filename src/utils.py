@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-from .models.learnable_cut_flows import LearnableCutFlowParallelModel
+from .models import LearnableCutFlowParallelModel, LearnableCutFlowSequentialModel
 
 
 def show_record_dataset(
@@ -125,7 +125,7 @@ def show_record_dataset_correlation(
 
 
 def show_learned_cuts(
-    model: LearnableCutFlowParallelModel,
+    model: LearnableCutFlowParallelModel | LearnableCutFlowSequentialModel,
     x: np.ndarray,
     y: np.ndarray,
     bins: int | np.ndarray | list[int | np.ndarray] = 100,
@@ -192,6 +192,9 @@ def show_learned_cuts(
         ax.legend(loc="upper right")
         ax.set_xlim(x_min, x_max)
 
+        if isinstance(model, LearnableCutFlowSequentialModel):
+            df = df.query(cut_report["cut"])
+
     for i in range(n_features, len(axes)):
         axes[i].axis("off")
 
@@ -205,7 +208,7 @@ def show_learned_cuts(
 
 def show_learned_cut(
     cut_index: int,
-    model: LearnableCutFlowParallelModel,
+    model: LearnableCutFlowParallelModel | LearnableCutFlowSequentialModel,
     x: np.ndarray,
     y: np.ndarray,
     bins: int | np.ndarray = 100,
@@ -269,7 +272,7 @@ def show_learned_cut(
 
 
 def show_learned_importance(
-    model: LearnableCutFlowParallelModel,
+    model: LearnableCutFlowParallelModel | LearnableCutFlowSequentialModel,
     feature_names: list[str] | None = None,
     to_file: str | None = None,
 ) -> None:
