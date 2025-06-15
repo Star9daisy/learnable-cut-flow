@@ -1,10 +1,38 @@
 # pyright: reportArgumentType=false
+from pickle import dump as save_sklearn_model
+from pickle import load as load_sklearn_model
+from typing import cast
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from keras.models import Model
+from keras.models import load_model as load_keras_model
+from keras.models import save_model as save_keras_model
+from sklearn.base import BaseEstimator
 
 from .models import LearnableCutFlowParallelModel, LearnableCutFlowSequentialModel
+
+
+def save_model(model, to_file: str) -> None:
+    if isinstance(model, Model):
+        save_keras_model(model, to_file)
+    elif isinstance(model, BaseEstimator):
+        with open(to_file, "wb") as f:
+            save_sklearn_model(model, f, protocol=5)
+    else:
+        raise ValueError(f"Unsupported model type: {type(model)}")
+
+
+def load_model(path: str) -> Model | BaseEstimator:
+    if path.endswith(".keras"):
+        return cast(Model, load_keras_model(path))
+    elif path.endswith(".pkl"):
+        with open(path, "rb") as f:
+            return load_sklearn_model(f)
+    else:
+        raise ValueError(f"Unsupported model type: {path}")
 
 
 def show_record_dataset(
