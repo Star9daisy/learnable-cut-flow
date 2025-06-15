@@ -8,7 +8,7 @@ from .layers import LearnableCut, LearnableImportance, Split
 
 def LearnableCutFlowParallel(
     input_shape,
-    centers=0.0,
+    centers: int | float | list[int] | list[float] = 0.0,
     threshold=0.5,
     feature_names=None,
     name="learnable_cut_flow_parallel",
@@ -201,7 +201,7 @@ class LearnableCutFlowParallelModel(Model):
 
 def LearnableCutFlowSequential(
     input_shape,
-    centers=0.0,
+    centers: int | float | list[int] | list[float] = 0.0,
     threshold=0.5,
     feature_names=None,
     name="learnable_cut_flow_sequential",
