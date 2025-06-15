@@ -1,4 +1,5 @@
 # pyright: reportArgumentType=false
+from pathlib import Path
 from pickle import dump as save_sklearn_model
 from pickle import load as load_sklearn_model
 from typing import cast
@@ -15,7 +16,7 @@ from sklearn.base import BaseEstimator
 from .models import LearnableCutFlowParallelModel, LearnableCutFlowSequentialModel
 
 
-def save_model(model, to_file: str) -> None:
+def save_model(model, to_file: str | Path) -> None:
     if isinstance(model, Model):
         save_keras_model(model, to_file)
     elif isinstance(model, BaseEstimator):
@@ -25,27 +26,28 @@ def save_model(model, to_file: str) -> None:
         raise ValueError(f"Unsupported model type: {type(model)}")
 
 
-def load_model(path: str) -> Model | BaseEstimator:
-    if path.endswith(".keras"):
+def load_model(path: str | Path) -> Model | BaseEstimator:
+    path = Path(path)
+    if path.suffix == ".keras":
         return cast(Model, load_keras_model(path))
-    elif path.endswith(".pkl"):
+    elif path.suffix == ".pkl":
         with open(path, "rb") as f:
             return load_sklearn_model(f)
     else:
-        raise ValueError(f"Unsupported model type: {path}")
+        raise ValueError(f"Unsupported model type: {path.suffix}")
 
 
 def show_record_dataset(
     x: np.ndarray,
     y: np.ndarray,
-    bins: int | np.ndarray | list[int | np.ndarray] = 100,
+    bins: int | np.ndarray | list[int] | list[np.ndarray] = 100,
     feature_names: list[str] | None = None,
     n_columns: int = 3,
-    to_file: str | None = None,
+    to_file: str | Path | None = None,
 ) -> None:
     y = y.squeeze()
     n_features = x.shape[1]
-    bins = [bins] * n_features if not isinstance(bins, list) else bins
+    bins_ = [bins] * n_features if not isinstance(bins, list) else bins
     feature_names = feature_names or [f"x{i + 1}" for i in range(n_features)]
     n_rows = (n_features + n_columns - 1) // n_columns
 
@@ -55,7 +57,7 @@ def show_record_dataset(
     for i in range(n_features):
         ax = axes[i]
         x_i = x[:, i]
-        bins_i = bins[i]
+        bins_i = bins_[i]
         sig, bkg = x_i[y == 1], x_i[y == 0]
         sig_weights = 100 * np.ones_like(sig) / len(x_i)
         bkg_weights = 100 * np.ones_like(bkg) / len(x_i)
@@ -86,7 +88,7 @@ def show_record_feature(
     bins: int | np.ndarray = 100,
     feature_index: int = 0,
     feature_name: str | None = None,
-    to_file: str | None = None,
+    to_file: str | Path | None = None,
 ) -> None:
     y = y.squeeze()
     feature_name = feature_name or f"x{feature_index + 1}"
@@ -119,7 +121,7 @@ def show_record_feature(
 def show_record_dataset_correlation(
     x: np.ndarray,
     feature_names: list[str] | None = None,
-    to_file: str | None = None,
+    to_file: str | Path | None = None,
 ) -> None:
     feature_names = feature_names or [f"x{i + 1}" for i in range(x.shape[1])]
     df = pd.DataFrame(x, columns=pd.Series(feature_names))
@@ -156,14 +158,14 @@ def show_learned_cuts(
     model: LearnableCutFlowParallelModel | LearnableCutFlowSequentialModel,
     x: np.ndarray,
     y: np.ndarray,
-    bins: int | np.ndarray | list[int | np.ndarray] = 100,
+    bins: int | np.ndarray | list[int] | list[np.ndarray] = 100,
     feature_names: list[str] | None = None,
     n_columns: int = 3,
-    to_file: str | None = None,
+    to_file: str | Path | None = None,
 ) -> None:
     y = y.squeeze()
     n_features = x.shape[1]
-    bins = [bins] * n_features if not isinstance(bins, list) else bins
+    bins_ = [bins] * n_features if not isinstance(bins, list) else bins
     feature_names = feature_names or [cut.feature_name for cut in model.learnable_cuts]
     n_rows = (n_features + n_columns - 1) // n_columns
     df = pd.DataFrame(
@@ -178,7 +180,7 @@ def show_learned_cuts(
         ax = axes[i]
         x_i = df.iloc[:, i]
         y_i = df["y"]
-        bins_i = bins[i]
+        bins_i = bins_[i]
         sig, bkg = x_i[y_i == 1], x_i[y_i == 0]
         sig_weights = 100 * np.ones_like(sig) / len(x_i)
         bkg_weights = 100 * np.ones_like(bkg) / len(x_i)
@@ -241,7 +243,7 @@ def show_learned_cut(
     y: np.ndarray,
     bins: int | np.ndarray = 100,
     feature_name: str | None = None,
-    to_file: str | None = None,
+    to_file: str | Path | None = None,
 ) -> None:
     feature_name = feature_name or model.learnable_cuts[cut_index].feature_name
     df = pd.DataFrame(
