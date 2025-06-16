@@ -66,7 +66,7 @@ def show_record_dataset(
         ax.hist(sig, label="SIG.", weights=sig_weights, color="r", **config)
         ax.hist(bkg, label="BKG.", weights=bkg_weights, color="b", **config)
 
-        ax.legend(loc="upper right")
+        ax.legend(loc="upper center", bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False)
         ax.set_xlabel(feature_names[i])
         ax.set_ylabel("Percent")
         ax.set_xlim(bins_i[0], bins_i[-1]) if not isinstance(bins_i, int) else None
@@ -104,7 +104,13 @@ def show_record_feature(
     ax.hist(sig, label="SIG.", weights=sig_weights, color="r", **config)
     ax.hist(bkg, label="BKG.", weights=bkg_weights, color="b", **config)
 
-    ax.legend(loc="upper right", fontsize=14)
+    ax.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.15),
+        ncol=3,
+        frameon=False,
+        fontsize=14,
+    )
     ax.set_xlabel(feature_name, fontsize=18)
     ax.set_ylabel("Percent", fontsize=18)
     ax.tick_params(axis="both", labelsize=14)
@@ -219,7 +225,7 @@ def show_learned_cuts(
             ax.axvspan(x_min, lower, **CUT_AREA_CONFIG)
             ax.axvspan(upper, x_max, **CUT_AREA_CONFIG)
 
-        ax.legend(loc="upper right")
+        ax.legend(loc="upper center", bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False)
         ax.set_xlim(x_min, x_max)
 
         if isinstance(model, LearnableCutFlowSequentialModel):
@@ -298,7 +304,13 @@ def show_learned_cut(
         ax.axvspan(x_min, lower, **CUT_AREA_CONFIG)
         ax.axvspan(upper, x_max, **CUT_AREA_CONFIG)
 
-    ax.legend(loc="upper right", fontsize=14)
+    ax.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.15),
+        ncol=3,
+        frameon=False,
+        fontsize=14,
+    )
     ax.set_xlim(x_min, x_max)
 
     fig.tight_layout()
@@ -336,7 +348,13 @@ def show_learned_importance(
         linewidth=1.5,
         label=f"Baseline: {model.importance_baseline:.4f}",
     )
-    ax.legend(fontsize=14)
+    ax.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.15),
+        ncol=3,
+        frameon=False,
+        fontsize=14,
+    )
     ax.set_ylabel("Importance", fontsize=18)
     ax.tick_params(axis="both", labelsize=14)
 
