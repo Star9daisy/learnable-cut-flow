@@ -250,8 +250,10 @@ def show_learned_cut(
         x, columns=pd.Series([cut.feature_name for cut in model.learnable_cuts])
     )
     df["y"] = y.squeeze()
-    for i in range(cut_index):
-        df = df.query(model.learned_cuts_report[i]["cut"])
+
+    if isinstance(model, LearnableCutFlowSequentialModel):
+        for i in range(cut_index):
+            df = df.query(model.learned_cuts_report[i]["cut"])
 
     fig, ax = plt.subplots()
 
