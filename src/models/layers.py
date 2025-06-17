@@ -91,7 +91,7 @@ class LearnableCut(Layer):
         self.feature_name = feature_name
 
         self.activation = ops.sigmoid
-        self.inverse_activation = lambda x: ops.log(1 / x - 1)
+        self.inverse_activation = lambda x: ops.negative(ops.log(1 / x - 1))
 
     def __str__(self) -> str:
         if self.case == self.LEFT:
