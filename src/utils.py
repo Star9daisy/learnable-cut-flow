@@ -225,7 +225,7 @@ def show_learned_cuts(
             ax.axvspan(x_min, lower, **CUT_AREA_CONFIG)
             ax.axvspan(upper, x_max, **CUT_AREA_CONFIG)
 
-        ax.legend(loc="upper center", bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False)
+        ax.legend(loc="upper right")
         ax.set_xlim(x_min, x_max)
 
         if isinstance(model, LearnableCutFlowSequentialModel):
