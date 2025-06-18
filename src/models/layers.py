@@ -1,4 +1,5 @@
 from keras import ops
+from keras.initializers import Constant
 from keras.layers import Layer
 from keras.saving import register_keras_serializable
 
@@ -86,7 +87,10 @@ class LearnableCut(Layer):
         **kwargs,
     ):
         super().__init__(**kwargs)
-        self.center = center
+        # self.center = center
+        self.center = self.add_weight(
+            shape=(), initializer=Constant(center), trainable=False
+        )
         self.threshold = threshold
         self.feature_name = feature_name
 

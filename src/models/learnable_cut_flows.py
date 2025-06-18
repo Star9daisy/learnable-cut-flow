@@ -62,6 +62,7 @@ class LearnableCutFlowParallelModel(Model):
         super().__init__(**kwargs)
         self.kwargs = kwargs
         self.importance_min_percent = importance_min_percent
+        self.centers = self.kwargs["centers"]
 
         self.normalization = self.layers[1]
         self.learnable_importance = self.layers[2]
@@ -79,6 +80,14 @@ class LearnableCutFlowParallelModel(Model):
     @property
     def learned_cuts(self):
         return [i["cut"] for i in self.learned_cuts_report]
+
+    @property
+    def normalized_centers(self):
+        return ops.squeeze(self.normalization(self.centers), axis=0)
+
+    @property
+    def learned_centers(self):
+        return ops.multiply(self.normalized_centers, self.learned_importance)
 
     @property
     def learned_cuts_report(self):
@@ -153,6 +162,10 @@ class LearnableCutFlowParallelModel(Model):
         sample_weight=None,
         training=True,
     ):
+        new_centers = ops.multiply(self.normalized_centers, self.learned_importance)
+        for i in range(len(self.learnable_cuts)):
+            self.learnable_cuts[i].center.assign(new_centers[i])
+
         if self._compile_loss is not None:
             loss = 0.0
             for i, learnable_cut in enumerate(self.learnable_cuts):
@@ -162,8 +175,8 @@ class LearnableCutFlowParallelModel(Model):
 
                 # Get the mask for the left and right output
                 x_i = ops.take(x, i, axis=1)
-                mask_left = ops.where(x_i < learnable_cut.center, 1.0, 0.0)
-                mask_right = ops.where(x_i > learnable_cut.center, 1.0, 0.0)
+                mask_left = ops.where(ops.less(x_i, self.centers[i]), 1.0, 0.0)
+                mask_right = ops.where(ops.greater(x_i, self.centers[i]), 1.0, 0.0)
 
                 # Calculate the loss for the left and right output
                 # The other side of loss is masked out
@@ -255,6 +268,7 @@ class LearnableCutFlowSequentialModel(Model):
         super().__init__(**kwargs)
         self.kwargs = kwargs
         self.importance_min_percent = importance_min_percent
+        self.centers = self.kwargs["centers"]
 
         self.normalization = self.layers[1]
         self.learnable_importance = self.layers[2]
@@ -272,6 +286,14 @@ class LearnableCutFlowSequentialModel(Model):
     @property
     def learned_cuts(self):
         return [i["cut"] for i in self.learned_cuts_report]
+
+    @property
+    def normalized_centers(self):
+        return ops.squeeze(self.normalization(self.centers), axis=0)
+
+    @property
+    def learned_centers(self):
+        return ops.multiply(self.normalized_centers, self.learned_importance)
 
     @property
     def learned_cuts_report(self):
@@ -346,6 +368,10 @@ class LearnableCutFlowSequentialModel(Model):
         sample_weight=None,
         training=True,
     ):
+        new_centers = ops.multiply(self.normalized_centers, self.learned_importance)
+        for i in range(len(self.learnable_cuts)):
+            self.learnable_cuts[i].center.assign(new_centers[i])
+
         if self._compile_loss is not None:
             loss = 0.0
             mask = ops.ones_like(y)
@@ -356,8 +382,8 @@ class LearnableCutFlowSequentialModel(Model):
 
                 # Get the mask for the left and right output
                 x_i = ops.take(x, i, axis=1)
-                mask_left = ops.where(x_i < learnable_cut.center, 1.0, 0.0)
-                mask_right = ops.where(x_i > learnable_cut.center, 1.0, 0.0)
+                mask_left = ops.where(ops.less(x_i, self.centers[i]), 1.0, 0.0)
+                mask_right = ops.where(ops.greater(x_i, self.centers[i]), 1.0, 0.0)
 
                 # Take the previous mask into account
                 mask_left = ops.multiply(mask_left, mask)
