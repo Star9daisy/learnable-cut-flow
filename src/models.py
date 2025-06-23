@@ -439,7 +439,7 @@ class LearnableCutFlowSequentialModel(Model):
 
     @classmethod
     def from_config(cls, config, custom_objects=None):
-        model = LearnableCutFlowParallel(
+        model = LearnableCutFlowSequential(
             input_shape=config["inputs"]["config"]["shape"],
             centers=config["centers"],
             threshold=config["threshold"],
