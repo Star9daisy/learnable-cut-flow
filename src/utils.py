@@ -1,8 +1,7 @@
-# pyright: reportArgumentType=false
 from pathlib import Path
 from pickle import dump as save_sklearn_model
 from pickle import load as load_sklearn_model
-from typing import cast
+from typing import Literal, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,9 +10,10 @@ import seaborn as sns
 from keras.models import Model
 from keras.models import load_model as load_keras_model
 from keras.models import save_model as save_keras_model
+from rich.console import Console
 from sklearn.base import BaseEstimator
 
-from .models import LearnableCutFlowParallelModel, LearnableCutFlowSequentialModel
+from .layers import LearnableCut
 
 
 def save_model(model, to_file: str | Path) -> None:
@@ -37,300 +37,169 @@ def load_model(path: str | Path) -> Model | BaseEstimator:
         raise ValueError(f"Unsupported model type: {path.suffix}")
 
 
-def show_record_dataset(
-    x: np.ndarray,
-    y: np.ndarray,
-    bins: int | np.ndarray | list[int] | list[np.ndarray] = 100,
-    feature_names: list[str] | None = None,
-    n_columns: int = 3,
-    to_file: str | Path | None = None,
-) -> None:
-    y = y.squeeze()
-    n_features = x.shape[1]
-    bins_ = [bins] * n_features if not isinstance(bins, list) else bins
-    feature_names = feature_names or [f"x{i + 1}" for i in range(n_features)]
-    n_rows = (n_features + n_columns - 1) // n_columns
-
-    fig, axes = plt.subplots(n_rows, n_columns, figsize=(4 * n_columns, 3 * n_rows))
-    axes = axes.flatten()
-
-    for i in range(n_features):
-        ax = axes[i]
-        x_i = x[:, i]
-        bins_i = bins_[i]
-        sig, bkg = x_i[y == 1], x_i[y == 0]
-        sig_weights = 100 * np.ones_like(sig) / len(x_i)
-        bkg_weights = 100 * np.ones_like(bkg) / len(x_i)
-
-        config = {"bins": bins_i, "histtype": "step"}
-        ax.hist(sig, label="SIG.", weights=sig_weights, color="r", **config)
-        ax.hist(bkg, label="BKG.", weights=bkg_weights, color="b", **config)
-
-        ax.legend(loc="upper center", bbox_to_anchor=(0.5, 1.15), ncol=3, frameon=False)
-        ax.set_xlabel(feature_names[i])
-        ax.set_ylabel("Percent")
-        ax.set_xlim(bins_i[0], bins_i[-1]) if not isinstance(bins_i, int) else None
-
-    for i in range(n_features, len(axes)):
-        axes[i].axis("off")
-
-    fig.tight_layout()
-    if to_file:
-        fig.savefig(to_file, dpi=300)
-        plt.close(fig)
-    else:
-        fig.show()
+def print(*obj: object, **kwargs) -> None:
+    console = Console(force_jupyter=False)
+    console.print(*obj, **kwargs)
 
 
-def show_record_feature(
-    x: np.ndarray,
-    y: np.ndarray,
-    bins: int | np.ndarray = 100,
-    feature_index: int = 0,
-    feature_name: str | None = None,
-    to_file: str | Path | None = None,
-) -> None:
-    y = y.squeeze()
-    feature_name = feature_name or f"x{feature_index + 1}"
-
-    fig, ax = plt.subplots()
-
-    x_i = x[:, feature_index]
-    sig, bkg = x_i[y == 1], x_i[y == 0]
-    sig_weights = 100 * np.ones_like(sig) / len(x_i)
-    bkg_weights = 100 * np.ones_like(bkg) / len(x_i)
-
-    config = {"bins": bins, "histtype": "step", "linewidth": 1.5}
-    ax.hist(sig, label="SIG.", weights=sig_weights, color="r", **config)
-    ax.hist(bkg, label="BKG.", weights=bkg_weights, color="b", **config)
-
-    ax.legend(
-        loc="upper center",
-        bbox_to_anchor=(0.5, 1.15),
-        ncol=3,
-        frameon=False,
-        fontsize=14,
+def feature_to_filename(feature: str) -> str:
+    return (
+        feature.replace("$", "")
+        .replace(" ", "_")
+        .replace("^", "-")
+        .replace("\\", "")
+        .replace("$", "")
+        .replace("{", "")
+        .replace("}", "")
+        .replace("=", "_")
     )
-    ax.set_xlabel(feature_name, fontsize=18)
-    ax.set_ylabel("Percent", fontsize=18)
-    ax.tick_params(axis="both", labelsize=14)
-    ax.set_xlim(bins[0], bins[-1]) if not isinstance(bins, int) else None
-
-    fig.tight_layout()
-    if to_file:
-        fig.savefig(to_file, dpi=300)
-        plt.close(fig)
-    else:
-        fig.show()
 
 
-def show_record_dataset_correlation(
-    x: np.ndarray,
-    feature_names: list[str] | None = None,
+def plot_distribution(
+    data: list[np.ndarray],
+    bins: np.ndarray,
+    colors: list[str] | None = None,
+    labels: list[str] | None = None,
+    weights: list[np.ndarray] | None = None,
+    xlabel: str = "x",
+    ylabel: str = "Counts",
+    histtype: Literal["bar", "barstacked", "step", "stepfilled"] = "step",
+    linewidth: float = 1.5,
+    label_fontsize: int = 18,
+    tick_fontsize: int = 14,
+    legend_fontsize: int = 12,
     to_file: str | Path | None = None,
 ) -> None:
-    feature_names = feature_names or [f"x{i + 1}" for i in range(x.shape[1])]
-    df = pd.DataFrame(x, columns=pd.Series(feature_names))
+    plt.figure(dpi=300)
+    for i, x in enumerate(data):
+        plt.hist(
+            x,
+            bins=bins,
+            color=colors[i] if colors is not None else None,
+            label=labels[i] if labels is not None else None,
+            weights=weights[i] if weights is not None else None,
+            histtype=histtype,
+            linewidth=linewidth,
+        )
+    plt.xlabel(xlabel, fontsize=label_fontsize)
+    plt.ylabel(ylabel, fontsize=label_fontsize)
+    plt.tick_params(labelsize=tick_fontsize)
+    plt.legend(loc="upper left", fontsize=legend_fontsize)
+    plt.tight_layout()
+    if to_file is not None:
+        plt.savefig(to_file)
+        plt.close()
+    else:
+        plt.show()
+
+
+def plot_correlation(
+    data: np.ndarray,
+    features: list[str],
+    vmin: float = -1,
+    vmax: float = 1,
+    cmap: str = "coolwarm",
+    annot: bool = True,
+    fmt: str = ".2f",
+    square: bool = True,
+    tick_fontsize: int = 14,
+    annotation_fontsize: int = 12,
+    to_file: str | Path | None = None,
+) -> None:
+    df = pd.DataFrame(data, columns=features)
     mask = np.triu(np.ones_like(df.corr(), dtype=bool), k=1)
 
-    fig, ax = plt.subplots()
+    plt.figure(dpi=300)
     sns.heatmap(
         df.corr(),
-        vmin=-1,
-        vmax=1,
-        cmap="coolwarm",
-        center=0,
-        annot=True,
-        fmt=".2f",
-        square=True,
+        vmin=vmin,
+        vmax=vmax,
+        cmap=cmap,
+        annot=annot,
+        fmt=fmt,
+        square=square,
         mask=mask,
-        ax=ax,
-        annot_kws={"fontsize": 12},
+        annot_kws={"fontsize": annotation_fontsize},
     )
-
-    ax.tick_params(axis="both", labelsize=14)
-    ax.set_xlabel(ax.get_xlabel(), fontsize=18)
-    ax.set_ylabel(ax.get_ylabel(), fontsize=18)
-
-    fig.tight_layout()
-    if to_file:
-        fig.savefig(to_file, dpi=300)
-        plt.close(fig)
+    plt.tick_params(labelsize=tick_fontsize)
+    plt.tight_layout()
+    if to_file is not None:
+        plt.savefig(to_file)
+        plt.close()
     else:
-        fig.show()
+        plt.show()
 
 
-def show_learned_cuts(
-    model: LearnableCutFlowParallelModel | LearnableCutFlowSequentialModel,
-    x: np.ndarray,
-    y: np.ndarray,
-    bins: int | np.ndarray | list[int] | list[np.ndarray] = 100,
-    feature_names: list[str] | None = None,
-    n_columns: int = 3,
+def plot_learned_cut(
+    cut: LearnableCut,
+    data: list[np.ndarray],
+    bins: np.ndarray,
+    colors: list[str] | None = None,
+    labels: list[str] | None = None,
+    weights: list[np.ndarray] | None = None,
+    xlabel: str = "x",
+    ylabel: str = "Counts",
+    histtype: Literal["bar", "barstacked", "step", "stepfilled"] = "step",
+    linewidth: float = 1.5,
+    label_fontsize: int = 18,
+    tick_fontsize: int = 14,
+    legend_fontsize: int = 12,
     to_file: str | Path | None = None,
 ) -> None:
-    y = y.squeeze()
-    n_features = x.shape[1]
-    bins_ = [bins] * n_features if not isinstance(bins, list) else bins
-    feature_names = feature_names or [cut.feature_name for cut in model.learnable_cuts]
-    n_rows = (n_features + n_columns - 1) // n_columns
-    df = pd.DataFrame(
-        x, columns=pd.Series([cut.feature_name for cut in model.learnable_cuts])
-    )
-    df["y"] = y.squeeze()
-
-    fig, axes = plt.subplots(n_rows, n_columns, figsize=(4 * n_columns, 3 * n_rows))
-    axes = axes.flatten()
-
-    for i in range(n_features):
-        ax = axes[i]
-        x_i = df.iloc[:, i]
-        y_i = df["y"]
-        bins_i = bins_[i]
-        sig, bkg = x_i[y_i == 1], x_i[y_i == 0]
-        sig_weights = 100 * np.ones_like(sig) / len(x_i)
-        bkg_weights = 100 * np.ones_like(bkg) / len(x_i)
-
-        HIST_CONFIG = {"bins": bins_i, "histtype": "step"}
-        ax.hist(sig, label="SIG.", weights=sig_weights, color="red", **HIST_CONFIG)
-        ax.hist(bkg, label="BKG.", weights=bkg_weights, color="blue", **HIST_CONFIG)
-        ax.set_xlabel(feature_names[i])
-        ax.set_ylabel("Percent")
-        ax.set_xlim(bins_i[0], bins_i[-1]) if not isinstance(bins_i, int) else None
-
-        x_min, x_max = ax.get_xlim()
-        cut_report = model.learned_cuts_report[i]
-        cut = cut_report["cut"].replace(
-            model.learnable_cuts[i].feature_name, feature_names[i]
+    plt.figure(dpi=300)
+    for i, x in enumerate(data):
+        plt.hist(
+            x,
+            bins=bins,
+            color=colors[i] if colors is not None else None,
+            label=labels[i] if labels is not None else None,
+            weights=weights[i] if weights is not None else None,
+            histtype=histtype,
+            linewidth=linewidth,
         )
-        CUT_LINE_CONFIG = {"color": "red", "linestyle": "--"}
-        CUT_AREA_CONFIG = {"color": "red", "alpha": 0.1}
-        if cut_report["case"] == "left":
-            boundary = cut_report["boundaries"][cut_report["index"]]
-            ax.axvline(boundary, label=cut, **CUT_LINE_CONFIG)
-            ax.axvspan(x_min, boundary, **CUT_AREA_CONFIG)
-        elif cut_report["case"] == "right":
-            boundary = cut_report["boundaries"][cut_report["index"]]
-            ax.axvline(boundary, label=cut, **CUT_LINE_CONFIG)
-            ax.axvspan(boundary, x_max, **CUT_AREA_CONFIG)
-        elif cut_report["case"] == "middle":
-            lower, upper = cut_report["boundaries"]
-            ax.axvline(lower, **CUT_LINE_CONFIG)
-            ax.axvline(upper, label=cut, **CUT_LINE_CONFIG)
-            ax.axvspan(lower, upper, **CUT_AREA_CONFIG)
-        else:
-            lower, upper = cut_report["boundaries"]
-            ax.axvline(lower, **CUT_LINE_CONFIG)
-            ax.axvline(upper, label=cut, **CUT_LINE_CONFIG)
-            ax.axvspan(x_min, lower, **CUT_AREA_CONFIG)
-            ax.axvspan(upper, x_max, **CUT_AREA_CONFIG)
+    plt.xlabel(xlabel, fontsize=label_fontsize)
+    plt.ylabel(ylabel, fontsize=label_fontsize)
+    plt.xlim(bins[0], bins[-1])
+    plt.tick_params(labelsize=tick_fontsize)
 
-        ax.legend(loc="upper right")
-        ax.set_xlim(x_min, x_max)
-
-        if isinstance(model, LearnableCutFlowSequentialModel):
-            df = df.query(cut_report["cut"])
-
-    for i in range(n_features, len(axes)):
-        axes[i].axis("off")
-
-    fig.tight_layout()
-    if to_file:
-        fig.savefig(to_file, dpi=300)
-        plt.close(fig)
+    x_min, x_max = plt.xlim()
+    if cut.case == LearnableCut.LEFT:
+        boundary = cut.boundaries[cut.index]
+        plt.axvline(boundary, label=str(cut), color="red", linestyle="--")
+        plt.axvspan(x_min, boundary, color="red", alpha=0.1)
+    elif cut.case == LearnableCut.RIGHT:
+        boundary = cut.boundaries[cut.index]
+        plt.axvline(boundary, label=str(cut), color="red", linestyle="--")
+        plt.axvspan(boundary, x_max, color="red", alpha=0.1)
+    elif cut.case == LearnableCut.MIDDLE:
+        lower, upper = cut.boundaries
+        plt.axvline(lower, color="red", linestyle="--")
+        plt.axvline(upper, label=str(cut), color="red", linestyle="--")
+        plt.axvspan(lower, upper, color="red", alpha=0.1)
     else:
-        fig.show()
+        lower, upper = cut.boundaries
+        plt.axvline(lower, color="red", linestyle="--")
+        plt.axvline(upper, label=str(cut), color="red", linestyle="--")
+        plt.axvspan(x_min, lower, color="red", alpha=0.1)
+        plt.axvspan(upper, x_max, color="red", alpha=0.1)
 
-
-def show_learned_cut(
-    cut_index: int,
-    model: LearnableCutFlowParallelModel | LearnableCutFlowSequentialModel,
-    x: np.ndarray,
-    y: np.ndarray,
-    bins: int | np.ndarray = 100,
-    feature_name: str | None = None,
-    to_file: str | Path | None = None,
-) -> None:
-    feature_name = feature_name or model.learnable_cuts[cut_index].feature_name
-    df = pd.DataFrame(
-        x, columns=pd.Series([cut.feature_name for cut in model.learnable_cuts])
-    )
-    df["y"] = y.squeeze()
-
-    if isinstance(model, LearnableCutFlowSequentialModel):
-        for i in range(cut_index):
-            df = df.query(model.learned_cuts_report[i]["cut"])
-
-    fig, ax = plt.subplots()
-
-    x_i = df.iloc[:, cut_index]
-    y_i = df["y"]
-    sig, bkg = x_i[y_i == 1], x_i[y_i == 0]
-    sig_weights = 100 * np.ones_like(sig) / len(x_i)
-    bkg_weights = 100 * np.ones_like(bkg) / len(x_i)
-
-    HIST_CONFIG = {"bins": bins, "histtype": "step", "linewidth": 1.5}
-    ax.hist(sig, label="SIG.", weights=sig_weights, color="r", **HIST_CONFIG)
-    ax.hist(bkg, label="BKG.", weights=bkg_weights, color="b", **HIST_CONFIG)
-    ax.set_xlabel(feature_name, fontsize=18)
-    ax.set_ylabel("Percent", fontsize=18)
-    ax.tick_params(axis="both", labelsize=14)
-    ax.set_xlim(bins[0], bins[-1]) if not isinstance(bins, int) else None
-
-    x_min, x_max = ax.get_xlim()
-    cut_report = model.learned_cuts_report[cut_index]
-    cut = cut_report["cut"].replace(
-        model.learnable_cuts[cut_index].feature_name, feature_name
-    )
-    CUT_LINE_CONFIG = {"color": "red", "linestyle": "--"}
-    CUT_AREA_CONFIG = {"color": "red", "alpha": 0.1}
-    if cut_report["case"] == "left":
-        boundary = cut_report["boundaries"][cut_report["index"]]
-        ax.axvline(boundary, label=cut, **CUT_LINE_CONFIG)
-        ax.axvspan(x_min, boundary, **CUT_AREA_CONFIG)
-    elif cut_report["case"] == "right":
-        boundary = cut_report["boundaries"][cut_report["index"]]
-        ax.axvline(boundary, label=cut, **CUT_LINE_CONFIG)
-        ax.axvspan(boundary, x_max, **CUT_AREA_CONFIG)
-    elif cut_report["case"] == "middle":
-        lower, upper = cut_report["boundaries"]
-        ax.axvline(lower, **CUT_LINE_CONFIG)
-        ax.axvline(upper, label=cut, **CUT_LINE_CONFIG)
-        ax.axvspan(lower, upper, **CUT_AREA_CONFIG)
+    plt.legend(loc="upper left", fontsize=legend_fontsize)
+    plt.tight_layout()
+    if to_file is not None:
+        plt.savefig(to_file)
+        plt.close()
     else:
-        lower, upper = cut_report["boundaries"]
-        ax.axvline(lower, **CUT_LINE_CONFIG)
-        ax.axvline(upper, label=cut, **CUT_LINE_CONFIG)
-        ax.axvspan(x_min, lower, **CUT_AREA_CONFIG)
-        ax.axvspan(upper, x_max, **CUT_AREA_CONFIG)
-
-    ax.legend(
-        loc="upper center",
-        bbox_to_anchor=(0.5, 1.15),
-        ncol=3,
-        frameon=False,
-        fontsize=14,
-    )
-    ax.set_xlim(x_min, x_max)
-
-    fig.tight_layout()
-    if to_file:
-        fig.savefig(to_file, dpi=300)
-        plt.close(fig)
-    else:
-        fig.show()
+        plt.show()
 
 
-def show_learned_importance(
-    model: LearnableCutFlowParallelModel | LearnableCutFlowSequentialModel,
-    feature_names: list[str] | None = None,
+def plot_learned_importance(
+    scores: np.ndarray,
+    baseline: float,
+    features: list[str],
     to_file: str | None = None,
 ) -> None:
-    learned_importance = model.learned_importance
-    feature_names = feature_names or [cut.feature_name for cut in model.learnable_cuts]
-
-    fig, ax = plt.subplots()
-    bars = ax.bar(feature_names, learned_importance)
+    plt.figure(dpi=300)
+    bars = plt.bar(features, scores)
     for bar in bars:
         plt.text(
             bar.get_x() + bar.get_width() / 2,
@@ -341,26 +210,20 @@ def show_learned_importance(
             fontsize=14,
         )
 
-    ax.axhline(
-        model.importance_baseline,
+    plt.axhline(
+        baseline,
         color="gray",
         linestyle="--",
         linewidth=1.5,
-        label=f"Baseline: {model.importance_baseline:.4f}",
+        label=f"Baseline: {baseline:.4f}",
     )
-    ax.legend(
-        loc="upper center",
-        bbox_to_anchor=(0.5, 1.15),
-        ncol=3,
-        frameon=False,
-        fontsize=14,
-    )
-    ax.set_ylabel("Importance", fontsize=18)
-    ax.tick_params(axis="both", labelsize=14)
+    plt.legend(loc="upper left", fontsize=14)
+    plt.ylabel("Importance", fontsize=18)
+    plt.tick_params(axis="both", labelsize=14)
 
-    fig.tight_layout()
+    plt.tight_layout()
     if to_file:
-        fig.savefig(to_file, dpi=300)
-        plt.close(fig)
+        plt.savefig(to_file, dpi=300)
+        plt.close()
     else:
-        fig.show()
+        plt.show()
