@@ -83,8 +83,9 @@ def plot_distribution(
         )
     plt.xlabel(xlabel, fontsize=label_fontsize)
     plt.ylabel(ylabel, fontsize=label_fontsize)
+    plt.xlim(bins[0], bins[-1])
     plt.tick_params(labelsize=tick_fontsize)
-    plt.legend(loc="upper left", fontsize=legend_fontsize)
+    plt.legend(loc="upper right", fontsize=legend_fontsize)
     plt.tight_layout()
     if to_file is not None:
         plt.savefig(to_file)
@@ -217,10 +218,9 @@ def plot_learned_importance(
         linewidth=1.5,
         label=f"Baseline: {baseline:.4f}",
     )
-    plt.legend(loc="upper left", fontsize=14)
     plt.ylabel("Importance", fontsize=18)
     plt.tick_params(axis="both", labelsize=14)
-
+    plt.legend(loc="upper left", fontsize=14)
     plt.tight_layout()
     if to_file:
         plt.savefig(to_file, dpi=300)
