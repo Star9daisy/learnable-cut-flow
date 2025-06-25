@@ -132,7 +132,10 @@ def plot_correlation(
 
 
 def plot_learned_cut(
-    cut: LearnableCut,
+    case: int,
+    index: int,
+    boundaries: list[float],
+    expression: str,
     data: list[np.ndarray],
     bins: np.ndarray,
     colors: list[str] | None = None,
@@ -164,23 +167,23 @@ def plot_learned_cut(
     plt.tick_params(labelsize=tick_fontsize)
 
     x_min, x_max = plt.xlim()
-    if cut.case == LearnableCut.LEFT:
-        boundary = cut.boundaries[cut.index]
-        plt.axvline(boundary, label=str(cut), color="red", linestyle="--")
+    if case == LearnableCut.LEFT:
+        boundary = boundaries[index]
+        plt.axvline(boundary, label=expression, color="red", linestyle="--")
         plt.axvspan(x_min, boundary, color="red", alpha=0.1)
-    elif cut.case == LearnableCut.RIGHT:
-        boundary = cut.boundaries[cut.index]
-        plt.axvline(boundary, label=str(cut), color="red", linestyle="--")
+    elif case == LearnableCut.RIGHT:
+        boundary = boundaries[index]
+        plt.axvline(boundary, label=expression, color="red", linestyle="--")
         plt.axvspan(boundary, x_max, color="red", alpha=0.1)
-    elif cut.case == LearnableCut.MIDDLE:
-        lower, upper = cut.boundaries
+    elif case == LearnableCut.MIDDLE:
+        lower, upper = boundaries
         plt.axvline(lower, color="red", linestyle="--")
-        plt.axvline(upper, label=str(cut), color="red", linestyle="--")
+        plt.axvline(upper, label=expression, color="red", linestyle="--")
         plt.axvspan(lower, upper, color="red", alpha=0.1)
     else:
-        lower, upper = cut.boundaries
+        lower, upper = boundaries
         plt.axvline(lower, color="red", linestyle="--")
-        plt.axvline(upper, label=str(cut), color="red", linestyle="--")
+        plt.axvline(upper, label=expression, color="red", linestyle="--")
         plt.axvspan(x_min, lower, color="red", alpha=0.1)
         plt.axvspan(upper, x_max, color="red", alpha=0.1)
 
@@ -197,6 +200,7 @@ def plot_learned_importance(
     scores: np.ndarray,
     baseline: float,
     features: list[str],
+    errors: np.ndarray | None = None,
     to_file: str | None = None,
 ) -> None:
     plt.figure(dpi=300)
@@ -218,6 +222,19 @@ def plot_learned_importance(
         linewidth=1.5,
         label=f"Baseline: {baseline:.4f}",
     )
+
+    if errors is not None:
+        for i, (score, error) in enumerate(zip(scores, errors)):
+            plt.fill_between(
+                [i - 0.4, i + 0.4],
+                [score - error, score - error],
+                [score + error, score + error],
+                color="gray",
+                alpha=0.5,
+                hatch="///",
+                label="Error" if i == 0 else "",
+            )
+
     plt.ylabel("Importance", fontsize=18)
     plt.tick_params(axis="both", labelsize=14)
     plt.legend(loc="upper left", fontsize=14)
