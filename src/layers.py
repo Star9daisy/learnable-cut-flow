@@ -94,6 +94,8 @@ class LearnableCut(Layer):
 
     Properties
     ----------
+    expression: str
+        The expression of the cut.
     boundaries: Tensor
         The boundaries of the cut in the original feature range.
     directions: Tensor
@@ -144,7 +146,8 @@ class LearnableCut(Layer):
         self.kernels = self.add_weight(shape=(2,))
         self.biases = self.add_weight(shape=(2,))
 
-    def __str__(self) -> str:
+    @property
+    def expression(self) -> str:
         if self.case == self.LEFT:
             boundary = self.boundaries[self.index]
             return f"{self.feature} < {boundary:.4f}"
