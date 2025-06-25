@@ -42,9 +42,9 @@ def print(*obj: object, **kwargs) -> None:
     console.print(*obj, **kwargs)
 
 
-def feature_to_filename(feature: str) -> str:
+def tex_to_str(tex: str) -> str:
     return (
-        feature.replace("$", "")
+        tex.replace("$", "")
         .replace(" ", "_")
         .replace("^", "-")
         .replace("\\", "")
