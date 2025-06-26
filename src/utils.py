@@ -57,7 +57,7 @@ def tex_to_str(tex: str) -> str:
 
 def plot_distribution(
     data: list[np.ndarray],
-    bins: np.ndarray,
+    bins: np.ndarray | int,
     colors: list[str] | None = None,
     labels: list[str] | None = None,
     weights: list[np.ndarray] | None = None,
@@ -83,7 +83,8 @@ def plot_distribution(
         )
     plt.xlabel(xlabel, fontsize=label_fontsize)
     plt.ylabel(ylabel, fontsize=label_fontsize)
-    plt.xlim(bins[0], bins[-1])
+    if isinstance(bins, np.ndarray):
+        plt.xlim(bins[0], bins[-1])
     plt.tick_params(labelsize=tick_fontsize)
     plt.legend(loc="upper right", fontsize=legend_fontsize)
     plt.tight_layout()
@@ -137,7 +138,7 @@ def plot_learned_cut(
     boundaries: list[float],
     expression: str,
     data: list[np.ndarray],
-    bins: np.ndarray,
+    bins: np.ndarray | int,
     colors: list[str] | None = None,
     labels: list[str] | None = None,
     weights: list[np.ndarray] | None = None,
@@ -163,7 +164,8 @@ def plot_learned_cut(
         )
     plt.xlabel(xlabel, fontsize=label_fontsize)
     plt.ylabel(ylabel, fontsize=label_fontsize)
-    plt.xlim(bins[0], bins[-1])
+    if isinstance(bins, np.ndarray):
+        plt.xlim(bins[0], bins[-1])
     plt.tick_params(labelsize=tick_fontsize)
 
     x_min, x_max = plt.xlim()
@@ -187,7 +189,7 @@ def plot_learned_cut(
         plt.axvspan(x_min, lower, color="red", alpha=0.1)
         plt.axvspan(upper, x_max, color="red", alpha=0.1)
 
-    plt.legend(loc="upper left", fontsize=legend_fontsize)
+    plt.legend(loc="upper right", fontsize=legend_fontsize)
     plt.tight_layout()
     if to_file is not None:
         plt.savefig(to_file)
@@ -231,13 +233,12 @@ def plot_learned_importance(
                 [score + error, score + error],
                 color="gray",
                 alpha=0.5,
-                hatch="///",
                 label="Error" if i == 0 else "",
             )
 
     plt.ylabel("Importance", fontsize=18)
     plt.tick_params(axis="both", labelsize=14)
-    plt.legend(loc="upper left", fontsize=14)
+    plt.legend(fontsize=14)
     plt.tight_layout()
     if to_file:
         plt.savefig(to_file, dpi=300)
