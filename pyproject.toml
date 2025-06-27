@@ -22,6 +22,3 @@ dependencies = [
 [tool.pyright]
 reportAttributeAccessIssue = false
 reportArgumentType = false
-
-[tool.ruff.lint.isort]
-known-third-party = ["src"]
