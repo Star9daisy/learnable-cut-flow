@@ -1,0 +1,58 @@
+{
+    "bdt": {
+        "training_time_mean": 16.37054090499878,
+        "training_time_std": 0.9235610553831327,
+        "tp_mean": 48251.0,
+        "tp_std": 0.0,
+        "fp_mean": 1493.0,
+        "fp_std": 0.0,
+        "accuracy_mean": 0.9690100000000001,
+        "accuracy_std": 1.1102230246251565e-16,
+        "precision_mean": 0.9699863300096496,
+        "precision_std": 2.220446049250313e-16,
+        "significance_mean": 12.302655057331089,
+        "significance_std": 1.7763568394002505e-15
+    },
+    "mlp": {
+        "training_time_mean": 69.07800378799439,
+        "training_time_std": 5.146601349460484,
+        "tp_mean": 48249.5,
+        "tp_std": 99.30281969813345,
+        "fp_mean": 1471.1,
+        "fp_std": 95.2307198334655,
+        "accuracy_mean": 0.9692139999999998,
+        "accuracy_std": 0.0001515387739160988,
+        "precision_mean": 0.9704196723992627,
+        "precision_std": 0.0018016887017956792,
+        "significance_mean": 12.412460982795807,
+        "significance_std": 0.38171348799614707
+    },
+    "lcf_par": {
+        "training_time_mean": 60.69613366127014,
+        "training_time_std": 0.8828210484500278,
+        "tp_mean": 27114.8,
+        "tp_std": 32.69495373907112,
+        "fp_mean": 154.5,
+        "fp_std": 0.5,
+        "accuracy_mean": 0.7710329999999999,
+        "accuracy_std": 0.0003223988213378102,
+        "precision_mean": 0.9943343000089996,
+        "precision_std": 1.2358328843976818e-05,
+        "significance_mean": 21.491440690570254,
+        "significance_std": 0.015442260290634896
+    },
+    "lcf_seq": {
+        "training_time_mean": 62.99920294284821,
+        "training_time_std": 2.3689175083035137,
+        "tp_mean": 40570.0,
+        "tp_std": 22.09524835796149,
+        "fp_mean": 1279.3,
+        "fp_std": 5.675385449465085,
+        "accuracy_mean": 0.8943370000000002,
+        "accuracy_std": 0.00017821616088334842,
+        "precision_mean": 0.9694308546677899,
+        "precision_std": 0.00011887622771194852,
+        "significance_mean": 11.17490996592133,
+        "significance_std": 0.02026007058014492
+    }
+}

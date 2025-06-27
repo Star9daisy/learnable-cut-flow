@@ -1,0 +1,58 @@
+{
+    "bdt": {
+        "training_time_mean": 23.911453747749327,
+        "training_time_std": 2.5735831807943432,
+        "tp_mean": 41171.8,
+        "tp_std": 0.4,
+        "fp_mean": 6142.8,
+        "fp_std": 0.39999999999999997,
+        "accuracy_mean": 0.8752717535394241,
+        "accuracy_std": 8.384001432123054e-06,
+        "precision_mean": 0.8701711522844466,
+        "precision_std": 7.704592967289171e-06,
+        "significance_mean": 5.958676036715221,
+        "significance_std": 0.00021589593354806106
+    },
+    "mlp": {
+        "training_time_mean": 56.77058870792389,
+        "training_time_std": 3.57316103382644,
+        "tp_mean": 41019.2,
+        "tp_std": 284.37186921353526,
+        "fp_mean": 5622.7,
+        "fp_std": 266.92210474218876,
+        "accuracy_mean": 0.8801434328437351,
+        "accuracy_std": 0.0007051351432973364,
+        "precision_mean": 0.8794999147674692,
+        "precision_std": 0.004308172059710605,
+        "significance_mean": 6.2093215876235766,
+        "significance_std": 0.10520894582414089
+    },
+    "lcf_par": {
+        "training_time_mean": 62.38826594352722,
+        "training_time_std": 2.2796830380658912,
+        "tp_mean": 24335.5,
+        "tp_std": 100.41140373483482,
+        "fp_mean": 2823.5,
+        "fp_std": 19.14810695604137,
+        "accuracy_mean": 0.6960867490322922,
+        "accuracy_std": 0.0011143627917624872,
+        "precision_mean": 0.8960389878029655,
+        "precision_std": 0.00034651101118379063,
+        "significance_mean": 5.194953177974322,
+        "significance_std": 0.010268888370626013
+    },
+    "lcf_seq": {
+        "training_time_mean": 64.41406660079956,
+        "training_time_std": 6.226094017840966,
+        "tp_mean": 40502.6,
+        "tp_std": 27.401459815126636,
+        "fp_mean": 6641.0,
+        "fp_std": 30.11976095522672,
+        "accuracy_mean": 0.8597963836894851,
+        "accuracy_std": 0.00012868827720994422,
+        "precision_mean": 0.8591330783207585,
+        "precision_std": 0.0004718874620491322,
+        "significance_mean": 5.6377003100292855,
+        "significance_std": 0.00924498721314627
+    }
+}

@@ -1,30 +1,34 @@
 {
     "bdt": {
+        "training_time": 13.26504397392273,
         "tp": 48251,
         "fp": 1493,
-        "accuracy": 0.9690099954605103,
-        "precision": 0.9699863195419312,
-        "significance": 1248.7525634765625
+        "accuracy": 0.96901,
+        "precision": 0.9699863300096494,
+        "significance": 12.302655057331087
     },
     "mlp": {
-        "tp": 48129,
-        "fp": 1350,
-        "accuracy": 0.969219982624054,
-        "precision": 0.9727157354354858,
-        "significance": 1309.905517578125
+        "training_time": 46.2691707611084,
+        "tp": 48234,
+        "fp": 1445,
+        "accuracy": 0.96932,
+        "precision": 0.9709132631494193,
+        "significance": 12.500914598546007
     },
     "lcf_par": {
-        "tp": 27077,
-        "fp": 153,
-        "accuracy": 0.7706699967384338,
-        "precision": 0.9943812489509583,
-        "significance": 2189.045654296875
+        "training_time": 40.17117381095886,
+        "tp": 27134,
+        "fp": 155,
+        "accuracy": 0.77122,
+        "precision": 0.994320055700099,
+        "significance": 21.47189646288632
     },
     "lcf_seq": {
-        "tp": 40574,
-        "fp": 1278,
-        "accuracy": 0.8943899869918823,
-        "precision": 0.9694638252258301,
-        "significance": 1134.96484375
+        "training_time": 41.983179330825806,
+        "tp": 40593,
+        "fp": 1283,
+        "accuracy": 0.89453,
+        "precision": 0.9693619256853567,
+        "significance": 11.165039229015019
     }
 }
