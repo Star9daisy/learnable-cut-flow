@@ -1,6 +1,7 @@
 from pathlib import Path
 from pickle import dump as save_sklearn_model
 from pickle import load as load_sklearn_model
+from time import time
 from typing import Literal, cast
 
 import matplotlib.pyplot as plt
@@ -15,6 +16,19 @@ from rich.console import Console
 from sklearn.base import BaseEstimator
 
 from .layers import LearnableCut
+
+
+class Timer:
+    def __init__(self):
+        self.record = 0
+
+    def __enter__(self):
+        self.start_time = time()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.end_time = time()
+        self.record = self.end_time - self.start_time
 
 
 def to_numpy(x) -> np.ndarray:
