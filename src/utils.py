@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from keras import ops
 from keras.models import Model
 from keras.models import load_model as load_keras_model
 from keras.models import save_model as save_keras_model
@@ -14,6 +15,10 @@ from rich.console import Console
 from sklearn.base import BaseEstimator
 
 from .layers import LearnableCut
+
+
+def to_numpy(x) -> np.ndarray:
+    return ops.convert_to_numpy(x)  # type: ignore
 
 
 def save_model(model, to_file: str | Path) -> None:
