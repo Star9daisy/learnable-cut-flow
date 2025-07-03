@@ -1,4 +1,3 @@
 {
-  "python.languageServer": "None",
-  "python.analysis.typeCheckingMode": "off"
+  "basedpyright.analysis.typeCheckingMode": "off"
 }

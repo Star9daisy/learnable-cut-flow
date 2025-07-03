@@ -19,12 +19,3 @@ dependencies = [
     "tensorflow==2.16.1",
     "torch==2.3.0",
 ]
-
-[tool.pyright]
-reportAttributeAccessIssue = false
-reportArgumentType = false
-reportUnknownVariableType = false
-reportAny = false
-reportUnknownMemberType = false
-reportUnusedCallResult = false
-reportUnknownArgumentType = false
