@@ -1,0 +1,450 @@
+{
+    "bdt": {
+        "file_path": {
+            "records": [
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-bdt@1(x10).pkl",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-bdt@2(x10).pkl",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-bdt@3(x10).pkl",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-bdt@4(x10).pkl",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-bdt@5(x10).pkl",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-bdt@6(x10).pkl",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-bdt@7(x10).pkl",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-bdt@8(x10).pkl",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-bdt@9(x10).pkl",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-bdt@10(x10).pkl"
+            ]
+        },
+        "training_time": {
+            "records": [
+                18.409562349319458,
+                18.236636877059937,
+                18.248210430145264,
+                18.56230354309082,
+                18.44208550453186,
+                18.28987216949463,
+                18.335161447525024,
+                18.481958627700806,
+                18.646603107452393,
+                18.391711235046387
+            ],
+            "mean": 18.40441052913666,
+            "std": 0.12714924849164747
+        },
+        "tp": {
+            "records": [
+                41172,
+                41171,
+                41172,
+                41172,
+                41172,
+                41172,
+                41172,
+                41172,
+                41172,
+                41172
+            ],
+            "mean": 41171.9,
+            "std": 0.3
+        },
+        "fp": {
+            "records": [
+                6142,
+                6143,
+                6142,
+                6143,
+                6143,
+                6142,
+                6142,
+                6142,
+                6142,
+                6143
+            ],
+            "mean": 6142.4,
+            "std": 0.4898979485566356
+        },
+        "accuracy": {
+            "records": [
+                0.87528500980964,
+                0.8752584972692083,
+                0.87528500980964,
+                0.8752717535394241,
+                0.8752717535394241,
+                0.87528500980964,
+                0.87528500980964,
+                0.87528500980964,
+                0.87528500980964,
+                0.8752717535394241
+            ],
+            "mean": 0.875278381674532,
+            "std": 8.892576399210319e-06
+        },
+        "precision": {
+            "records": [
+                0.8701864141691676,
+                0.870165278775838,
+                0.8701864141691676,
+                0.8701680228257423,
+                0.8701680228257423,
+                0.8701864141691676,
+                0.8701864141691676,
+                0.8701864141691676,
+                0.8701864141691676,
+                0.8701680228257423
+            ],
+            "mean": 0.8701787832268071,
+            "std": 9.376121677207892e-06
+        },
+        "significance": {
+            "records": [
+                5.959093022401008,
+                5.95846324672099,
+                5.959093022401008,
+                5.958607971484702,
+                5.958607971484702,
+                5.959093022401008,
+                5.959093022401008,
+                5.959093022401008,
+                5.959093022401008,
+                5.958607971484702
+            ],
+            "mean": 5.958884529558114,
+            "std": 0.0002584081898840772
+        }
+    },
+    "mlp": {
+        "file_path": {
+            "records": [
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-mlp@1(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-mlp@2(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-mlp@3(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-mlp@4(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-mlp@5(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-mlp@6(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-mlp@7(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-mlp@8(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-mlp@9(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-mlp@10(x10).keras"
+            ]
+        },
+        "training_time": {
+            "records": [
+                38.404547691345215,
+                32.51829957962036,
+                33.28072929382324,
+                31.63465118408203,
+                32.712451219558716,
+                32.616007566452026,
+                34.18737602233887,
+                33.111698389053345,
+                33.418439626693726,
+                31.52499532699585
+            ],
+            "mean": 33.34091958999634,
+            "std": 1.8500026769006204
+        },
+        "tp": {
+            "records": [
+                40977,
+                41092,
+                41041,
+                40668,
+                41229,
+                41247,
+                41290,
+                41367,
+                41379,
+                41201
+            ],
+            "mean": 41149.1,
+            "std": 203.6837990611919
+        },
+        "fp": {
+            "records": [
+                5616,
+                5703,
+                5662,
+                5322,
+                5868,
+                5885,
+                5925,
+                5996,
+                6035,
+                5808
+            ],
+            "mean": 5782.0,
+            "std": 202.17121456824657
+        },
+        "accuracy": {
+            "records": [
+                0.8796728352510738,
+                0.8800440108171165,
+                0.8799114481149584,
+                0.8794739911978365,
+                0.8796728352510738,
+                0.8796860915212895,
+                0.879725860331937,
+                0.8798053979532319,
+                0.8794474786574049,
+                0.8800970358979797
+            ],
+            "mean": 0.8797536984993902,
+            "std": 0.00020497554705691266
+        },
+        "precision": {
+            "records": [
+                0.8794668727062005,
+                0.8781280051287531,
+                0.8787658180416675,
+                0.8842791911285062,
+                0.8754060768201797,
+                0.8751379105490962,
+                0.8745102192099968,
+                0.8734032894875747,
+                0.8727169190534442,
+                0.8764491905805272
+            ],
+            "mean": 0.8768263492705947,
+            "std": 0.003270359676436006
+        },
+        "significance": {
+            "records": [
+                6.202399229643979,
+                6.172181670299931,
+                6.186800451038104,
+                6.3233684295049555,
+                6.105072918130503,
+                6.098910214753054,
+                6.08462492814698,
+                6.059772516226455,
+                6.0419129046833735,
+                6.132358839976954
+            ],
+            "mean": 6.140740210240429,
+            "std": 0.07926455237810273
+        }
+    },
+    "lcf_par": {
+        "file_path": {
+            "records": [
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_par@1(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_par@2(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_par@3(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_par@4(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_par@5(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_par@6(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_par@7(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_par@8(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_par@9(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_par@10(x10).keras"
+            ]
+        },
+        "training_time": {
+            "records": [
+                37.399105072021484,
+                37.3390371799469,
+                37.098825454711914,
+                39.141266107559204,
+                36.654531717300415,
+                37.72064709663391,
+                38.13395166397095,
+                39.22835183143616,
+                38.36090302467346,
+                38.474958658218384
+            ],
+            "mean": 37.955157780647276,
+            "std": 0.8162960946626197
+        },
+        "tp": {
+            "records": [
+                24262,
+                24435,
+                24373,
+                24359,
+                24413,
+                24333,
+                24258,
+                24291,
+                24461,
+                24374
+            ],
+            "mean": 24355.9,
+            "std": 66.58145387418332
+        },
+        "fp": {
+            "records": [
+                2822,
+                2841,
+                2835,
+                2832,
+                2858,
+                2830,
+                2817,
+                2815,
+                2847,
+                2820
+            ],
+            "mean": 2831.7,
+            "std": 13.236691429507601
+        },
+        "accuracy": {
+            "records": [
+                0.6951322975767538,
+                0.6971737631899889,
+                0.6964314120579034,
+                0.6962855930855295,
+                0.6966567686515722,
+                0.6959674426003499,
+                0.6951455538469696,
+                0.6956095233045231,
+                0.6974388885943051,
+                0.6966435123813564
+            ],
+            "mean": 0.6962484755289251,
+            "std": 0.0007470187619343825
+        },
+        "precision": {
+            "records": [
+                0.895805641707281,
+                0.895842498900132,
+                0.8958027050867392,
+                0.8958478908462358,
+                0.8952000293351913,
+                0.8958141589662408,
+                0.8959556786703601,
+                0.8961484542167786,
+                0.8957448366778966,
+                0.896300654556152
+            ],
+            "mean": 0.8958462548963008,
+            "std": 0.0002724450628945521
+        },
+        "significance": {
+            "records": [
+                5.180613590527154,
+                5.200077704655402,
+                5.1923691832052965,
+                5.192134542927259,
+                5.1799211126776985,
+                5.188425022867653,
+                5.184354316642809,
+                5.19325085447772,
+                5.200122576650763,
+                5.206373964297333
+            ],
+            "mean": 5.1917642868929095,
+            "std": 0.008281223442016587
+        }
+    },
+    "lcf_seq": {
+        "file_path": {
+            "records": [
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_seq@1(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_seq@2(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_seq@3(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_seq@4(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_seq@5(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_seq@6(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_seq@7(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_seq@8(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_seq@9(x10).keras",
+                "checkpoints/4-dataset:real1-model:bdt,mlp,lcf-selection:034-lcf_seq@10(x10).keras"
+            ]
+        },
+        "training_time": {
+            "records": [
+                40.87714123725891,
+                38.814574003219604,
+                40.173508644104004,
+                40.672425985336304,
+                42.28681039810181,
+                38.798627614974976,
+                40.89678192138672,
+                40.54809284210205,
+                41.298301219940186,
+                38.48407697677612
+            ],
+            "mean": 40.28503408432007,
+            "std": 1.166424402159463
+        },
+        "tp": {
+            "records": [
+                40507,
+                40459,
+                40496,
+                40500,
+                40524,
+                40524,
+                40480,
+                40495,
+                40471,
+                40483
+            ],
+            "mean": 40493.9,
+            "std": 20.201237585851022
+        },
+        "fp": {
+            "records": [
+                6633,
+                6583,
+                6640,
+                6645,
+                6651,
+                6640,
+                6614,
+                6633,
+                6617,
+                6617
+            ],
+            "mean": 6627.3,
+            "std": 19.010786411929413
+        },
+        "accuracy": {
+            "records": [
+                0.8599607614401612,
+                0.8599872739805928,
+                0.8597221485762766,
+                0.8597088923060607,
+                0.8599475051699453,
+                0.8600933241423193,
+                0.8598547112784347,
+                0.8598016861975715,
+                0.859695636035845,
+                0.8598547112784347
+            ],
+            "mean": 0.8598626650405642,
+            "std": 0.00012676210920919907
+        },
+        "precision": {
+            "records": [
+                0.859291472210437,
+                0.8600612218868245,
+                0.8591310251188051,
+                0.8590518612790328,
+                0.8590143084260732,
+                0.8592146552455262,
+                0.8595574807831147,
+                0.8592556442030216,
+                0.8594758749575263,
+                0.8595116772823779
+            ],
+            "mean": 0.8593565221392738,
+            "std": 0.0002950619871654578
+        },
+        "significance": {
+            "records": [
+                5.641676611096294,
+                5.65635063887008,
+                5.637170816944943,
+                5.635606189163065,
+                5.636401730905331,
+                5.641068505182658,
+                5.646008340620152,
+                5.6400052920814785,
+                5.643473304660634,
+                5.645146643092001
+            ],
+            "mean": 5.642290807261664,
+            "std": 0.005776915238739502
+        }
+    }
+}
