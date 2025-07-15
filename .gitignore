@@ -12,3 +12,5 @@ wheels/
 *.root
 *.hepmc.gz
 *.lhe.gz
+
+archive
