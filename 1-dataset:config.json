@@ -1,61 +1,37 @@
 {
   "mock1": {
     "features": ["$x_1$", "$x_2$", "$x_3$", "$x_4$"],
-    "bins": {
-      "start": -10,
-      "stop": 10,
-      "num": 101
-    },
+    "bins": { "start": -10, "stop": 10, "num": 101 },
     "n_samples": 200000,
     "seed": 42
   },
   "mock2": {
     "features": ["$x_1$", "$x_5$", "$x_6$"],
-    "bins": {
-      "start": -10,
-      "stop": 10,
-      "num": 101
-    },
+    "bins": { "start": -10, "stop": 10, "num": 101 },
     "n_samples": 200000,
     "seed": 42
   },
   "mock3": {
     "features": ["$x_1$", "$x_7$", "$x_8$"],
-    "bins": {
-      "start": -10,
-      "stop": 10,
-      "num": 101
-    },
+    "bins": { "start": -10, "stop": 10, "num": 101 },
     "n_samples": 200000,
     "seed": 42
   },
   "mock4": {
-    "features": ["$x_1$", "$x_9$", "$x_10$"],
-    "bins": {
-      "start": -10,
-      "stop": 10,
-      "num": 101
-    },
+    "features": ["$x_1$", "$x_9$", "$x_{10}$"],
+    "bins": { "start": -10, "stop": 10, "num": 101 },
     "n_samples": 200000,
     "seed": 42
   },
   "mock5": {
     "features": ["$x_1$", "$x_2$", "$x_3$", "$x_4$", "$x_5$", "$x_7$", "$x_9$"],
-    "bins": {
-      "start": -10,
-      "stop": 10,
-      "num": 101
-    },
+    "bins": { "start": -10, "stop": 10, "num": 101 },
     "n_samples": 200000,
     "seed": 42
   },
   "mock6": {
     "features": ["$x_1$", "$x_2$", "$x_3$", "$x_4$", "$x_5$", "$x_7$", "$x_9$"],
-    "bins": {
-      "start": -10,
-      "stop": 10,
-      "num": 101
-    },
+    "bins": { "start": -10, "stop": 10, "num": 101 },
     "n_samples": 200000,
     "seed": 42
   },
@@ -69,36 +45,12 @@
       "$\\tau_{21}^{\\beta=1}$"
     ],
     "bins": [
-      {
-        "start": 0,
-        "stop": 200,
-        "num": 101
-      },
-      {
-        "start": 0,
-        "stop": 0.5,
-        "num": 101
-      },
-      {
-        "start": 0,
-        "stop": 0.2,
-        "num": 101
-      },
-      {
-        "start": 0,
-        "stop": 5,
-        "num": 101
-      },
-      {
-        "start": 0,
-        "stop": 5,
-        "num": 101
-      },
-      {
-        "start": 0,
-        "stop": 1,
-        "num": 101
-      }
+      { "start": 0, "stop": 200, "num": 101 },
+      { "start": 0, "stop": 0.5, "num": 101 },
+      { "start": 0, "stop": 0.2, "num": 101 },
+      { "start": 0, "stop": 5, "num": 101 },
+      { "start": 0, "stop": 5, "num": 101 },
+      { "start": 0, "stop": 1, "num": 101 }
     ],
     "n_samples": 200000,
     "seed": 42
