@@ -102,10 +102,15 @@ def plot_distribution(
         )
     plt.xlabel(xlabel, fontsize=label_fontsize)
     plt.ylabel(ylabel, fontsize=label_fontsize)
+
+    y_min, y_max = plt.ylim()
+    padding = 0.2 * (y_max - y_min)
+    plt.ylim(y_min, y_max + padding)
     if isinstance(bins, np.ndarray):
         plt.xlim(bins[0], bins[-1])
+
     plt.tick_params(labelsize=tick_fontsize)
-    plt.legend(loc="upper right", fontsize=legend_fontsize)
+    plt.legend(loc="upper left", fontsize=legend_fontsize)
     plt.tight_layout()
     if to_file is not None:
         plt.savefig(to_file)
@@ -183,6 +188,10 @@ def plot_learned_cut(
         )
     plt.xlabel(xlabel, fontsize=label_fontsize)
     plt.ylabel(ylabel, fontsize=label_fontsize)
+
+    y_min, y_max = plt.ylim()
+    padding = 0.2 * (y_max - y_min)
+    plt.ylim(y_min, y_max + padding)
     if isinstance(bins, np.ndarray):
         plt.xlim(bins[0], bins[-1])
     plt.tick_params(labelsize=tick_fontsize)
@@ -208,7 +217,7 @@ def plot_learned_cut(
         plt.axvspan(x_min, lower, color="red", alpha=0.1)
         plt.axvspan(upper, x_max, color="red", alpha=0.1)
 
-    plt.legend(loc="upper right", fontsize=legend_fontsize)
+    plt.legend(loc="upper left", fontsize=legend_fontsize)
     plt.tight_layout()
     if to_file is not None:
         plt.savefig(to_file)
@@ -222,6 +231,9 @@ def plot_learned_importance(
     baseline: float,
     features: list[str],
     errors: np.ndarray | None = None,
+    label_fontsize: int = 18,
+    tick_fontsize: int = 14,
+    legend_fontsize: int = 12,
     to_file: str | None = None,
 ) -> None:
     plt.figure(dpi=300)
@@ -233,7 +245,7 @@ def plot_learned_importance(
             f"{bar.get_height():.4f}",
             horizontalalignment="center",
             verticalalignment="bottom",
-            fontsize=14,
+            fontsize=legend_fontsize,
         )
 
     plt.axhline(
@@ -255,9 +267,14 @@ def plot_learned_importance(
                 label="Error" if i == 0 else "",
             )
 
-    plt.ylabel("Importance", fontsize=18)
-    plt.tick_params(axis="both", labelsize=14)
-    plt.legend(fontsize=14)
+    plt.ylabel("Importance", fontsize=label_fontsize)
+
+    y_min, y_max = plt.ylim()
+    padding = 0.2 * (y_max - y_min)
+    plt.ylim(y_min, y_max + padding)
+
+    plt.tick_params(axis="both", labelsize=tick_fontsize)
+    plt.legend(loc="upper left", fontsize=legend_fontsize)
     plt.tight_layout()
     if to_file:
         plt.savefig(to_file, dpi=300)
