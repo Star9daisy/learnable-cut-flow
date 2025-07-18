@@ -274,7 +274,6 @@ def plot_learned_importance(
                 [score + error, score + error],
                 color="gray",
                 alpha=0.5,
-                label="Error" if i == 0 else "",
             )
 
     plt.ylabel("Importance", fontsize=label_fontsize)
