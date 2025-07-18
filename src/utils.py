@@ -76,7 +76,8 @@ def tex_to_str(tex: str) -> str:
 
 def plot_distribution(
     data: list[np.ndarray],
-    bins: np.ndarray | int,
+    center: float | None = None,
+    bins: np.ndarray | int = 100,
     colors: list[str] | None = None,
     labels: list[str] | None = None,
     weights: list[np.ndarray] | None = None,
@@ -102,6 +103,15 @@ def plot_distribution(
         )
     plt.xlabel(xlabel, fontsize=label_fontsize)
     plt.ylabel(ylabel, fontsize=label_fontsize)
+
+    if center is not None:
+        plt.axvline(
+            center,
+            color="gray",
+            label="Center",
+            linestyle="--",
+            linewidth=linewidth,
+        )
 
     y_min, y_max = plt.ylim()
     padding = 0.2 * (y_max - y_min)
@@ -162,7 +172,7 @@ def plot_learned_cut(
     boundaries: list[float],
     expression: str,
     data: list[np.ndarray],
-    bins: np.ndarray | int,
+    bins: np.ndarray | int = 100,
     colors: list[str] | None = None,
     labels: list[str] | None = None,
     weights: list[np.ndarray] | None = None,
