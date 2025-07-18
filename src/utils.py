@@ -120,7 +120,7 @@ def plot_distribution(
         plt.xlim(bins[0], bins[-1])
 
     plt.tick_params(labelsize=tick_fontsize)
-    plt.legend(loc="upper left", fontsize=legend_fontsize)
+    plt.legend(fontsize=legend_fontsize)
     plt.tight_layout()
     if to_file is not None:
         plt.savefig(to_file)
@@ -227,7 +227,7 @@ def plot_learned_cut(
         plt.axvspan(x_min, lower, color="red", alpha=0.1)
         plt.axvspan(upper, x_max, color="red", alpha=0.1)
 
-    plt.legend(loc="upper left", fontsize=legend_fontsize)
+    plt.legend(fontsize=legend_fontsize)
     plt.tight_layout()
     if to_file is not None:
         plt.savefig(to_file)
@@ -284,7 +284,7 @@ def plot_learned_importance(
     plt.ylim(y_min, y_max + padding)
 
     plt.tick_params(axis="both", labelsize=tick_fontsize)
-    plt.legend(loc="upper left", fontsize=legend_fontsize)
+    plt.legend(fontsize=legend_fontsize)
     plt.tight_layout()
     if to_file:
         plt.savefig(to_file, dpi=300)
