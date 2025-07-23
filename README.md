@@ -19,7 +19,7 @@ Please cite the paper if it is useful for your research:
 ```bibtex
 @article{Li:2025hbv,
     author = "Li, Jing and Sun, Hao",
-    title = "{Learnable cut flow}",
+    title = "{Learnable cut flow for high energy physics}",
     eprint = "2503.22498",
     archivePrefix = "arXiv",
     primaryClass = "cs.LG",
