@@ -1,7 +1,7 @@
 [project]
 name = "learnable-cut-flow"
 version = "0.1.0"
-description = "Add your description here"
+description = "The official implementation of the paper '[2503.22498] Learnable cut flow for high energy physics'."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
