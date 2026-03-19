@@ -23,7 +23,10 @@ Please cite the paper if it is useful for your research:
     eprint = "2503.22498",
     archivePrefix = "arXiv",
     primaryClass = "cs.LG",
-    month = "3",
+    doi = "10.1007/JHEP11(2025)047",
+    journal = "JHEP",
+    volume = "11",
+    pages = "047",
     year = "2025"
 }
 ```
