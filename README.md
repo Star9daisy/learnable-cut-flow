@@ -5,7 +5,7 @@ The _Learnable Cut Flow_ (LCF) model interprets the training of a neural network
 The model is implemented in Keras with Jax as backend. To install the dependencies, use:
 
 ```bash
-uv install
+uv sync
 ```
 
 The results used in the paper are available in the `results` directory. Model checkpoints are available in the `checkpoints` directory.
